@@ -8,7 +8,15 @@ import java.util.ArrayList;
 public class Cart {
 
     private Map<Product, Integer> items = new HashMap<>();
+    
+    public boolean isEmpty() {
+        return items.isEmpty();
+    }
 
+    public Map<Product , Integer> getItems() {
+        return this.items;
+    }
+    
     public void add(Product product , int quantity) {
         if (quantity <= 0)
             throw new IllegalArgumentException("Quantity must be positive");
@@ -39,7 +47,7 @@ public class Cart {
         return shippable;
     }
 
-    //Expired || OutofStock items.
+    //Expired || OutOfStock items.
     public List<UnavailableItem> getUnavailableItems() {
         
         List<UnavailableItem> unavailable = new ArrayList<>() ;
@@ -52,14 +60,11 @@ public class Cart {
             if (product.isExpired()) {
                 unavailable.add(new UnavailableItem(product , "Expired"));
             } 
-            else if (product.getQuantity() > requestedQuantity) {
+            else if (product.getQuantity() < requestedQuantity) {
                 unavailable.add(new UnavailableItem(product , "Out of Stock"));
             }
         }
         return unavailable;
     }
 
-
-
-    
 }
